@@ -1,0 +1,34 @@
+# ---------- LaTeX 编译产物 ----------
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+main.pdf
+build/
+
+# ---------- 字体文件（版权所有，请勿入库）----------
+fonts/*.ttc
+fonts/*.ttf
+fonts/*.otf
+fonts/*.TTC
+fonts/*.TTF
+fonts/*.OTF
+# 但保留字体目录说明
+!fonts/README.md
+
+# ---------- 编辑器 / 系统 ----------
+.DS_Store
+.vscode/
+.idea/
+.claude/
+*.swp
