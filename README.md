@@ -36,6 +36,8 @@ latexmk -xelatex main.tex
 
 Overleaf 用户：菜单 **Menu → Compiler 选 XeLaTeX**，主文件设为 `main.tex`，直接点 Recompile 即可。
 
+**prism.openai.com 用户（推荐）**：用 [prism.openai.com](https://prism.openai.com) 在线编译本模版。导入时**不要上传含 `.git` 的本地文件夹**，而是在本仓库点 **Code → Download ZIP** 下载干净压缩包再上传。注意：该 ZIP 不含宋体/黑体字体文件（版权原因未入库，见第五节），编译前请在 `main.tex` 启用「Fandol 兜底方案」，或自行将字体上传到 `fonts/` 目录。
+
 ## 三、目录结构
 
 ```
