@@ -10,33 +10,35 @@
 
 ---
 
-## 一、环境要求
+## 一、如何使用
 
-- **TeX 发行版**：TeX Live 2021 及以上（或 MacTeX）。也可直接用 [Overleaf](https://www.overleaf.com)（编译器选 XeLaTeX）。
-- **编译引擎**：XeLaTeX（务必使用 XeLaTeX，不能用 pdfLaTeX）。
-- **参考文献**：biber + `biblatex` + `biblatex-gb7714-2015`（TeX Live 完整安装已包含）。
-- **字体**：宋体、黑体需自备，详见下文「字体」一节。
+本模版推荐用 **[prism.openai.com](https://prism.openai.com)** 在线编译，**无需在本地安装任何 LaTeX 环境**。
 
-## 二、如何编译
+1. 在本仓库点 **Code → Download ZIP** 下载压缩包（这样下载的包不含 `.git`，干净）。
+2. 打开 [prism.openai.com](https://prism.openai.com)，上传该压缩包。
+3. 编译即可（主文件为 `main.tex`）。
 
-依次执行（共 4 步，确保目录与参考文献正确生成）：
+> 上传前请先看下面第二节的「字体」——这是唯一需要你动手处理的一步。
 
-```bash
-xelatex  main
-biber    main
-xelatex  main
-xelatex  main
-```
+## 二、字体（⚠️ 重要，务必先处理）
 
-或一条命令搞定（推荐）：
+模版正文用**宋体**、标题用**黑体**。这两个是 Windows 版权字体，**没有放进仓库**，
+所以你下载的压缩包里**不含字体文件**。如果直接上传到 prism 编译，会**报错（找不到字体）**。
+请从下面两种方式中**任选其一**处理：
 
-```bash
-latexmk -xelatex main.tex
-```
+**方案 A —— 最简单，先把效果跑出来（推荐）**
 
-Overleaf 用户：菜单 **Menu → Compiler 选 XeLaTeX**，主文件设为 `main.tex`，直接点 Recompile 即可。
+打开 `main.tex`，把「中文字体」那一段用 `%` 注释掉，再把紧跟其后的
+「**Fandol 兜底方案**」几行前面的 `%` 删掉（启用它）。Fandol 是开源字体、prism 已自带，
+改完**直接就能编译出 PDF**。
 
-**prism.openai.com 用户（推荐）**：用 [prism.openai.com](https://prism.openai.com) 在线编译本模版。导入时**不要上传含 `.git` 的本地文件夹**，而是在本仓库点 **Code → Download ZIP** 下载干净压缩包再上传。注意：该 ZIP 不含宋体/黑体字体文件（版权原因未入库，见第五节），编译前请在 `main.tex` 启用「Fandol 兜底方案」，或自行将字体上传到 `fonts/` 目录。
+> 缺点：Fandol 的宋体/黑体与 Windows 宋体/黑体观感略有差异。
+
+**方案 B —— 要标准宋体/黑体效果（正式提交学校时用）**
+
+保持 `main.tex` 默认设置不动，把 `simsun-win.ttc`、`SimHei.ttf` 两个字体文件
+上传到 prism 项目的 `fonts/` 目录即可。
+（字体可从任意 Windows 电脑的 `C:\Windows\Fonts\` 复制，详见 [`fonts/README.md`](fonts/README.md)。）
 
 ## 三、目录结构
 
@@ -67,13 +69,12 @@ Overleaf 用户：菜单 **Menu → Compiler 选 XeLaTeX**，主文件设为 `ma
 按这个顺序改最省心：
 
 1. **标题 / 摘要**：改 `frontmatter/abstract_zh.tex` 和 `abstract_en.tex`
-   （注意中文标题在 `abstract_zh.tex` 第一行的 `\section*{...}`，太长时用 `\\` 手动换行）。
+   （中文标题在 `abstract_zh.tex` 第一行的 `\section*{...}`，太长时用 `\\` 手动换行）。
 2. **正文**：逐章改 `chapters/*.tex`。每章开头形如
    ```latex
    \section{章标题}
    \setchapternum{2}   % ← 关键：把本章号告诉计数器，图/表/公式会自动按「2-1」编号
    ```
-   改章节就改 `\section / \subsection / \subsubsection` 的标题与正文。
 3. **图片**：把你的图片放进 `figures/`，改正文里的 `\includegraphics{figures/你的图.png}`。
 4. **表格**：模版用 `booktabs` 三线表，复制现成 `table` 环境改数据即可。
 5. **公式**：用 `equation` 环境，编号自动为「章号-序号」。
@@ -82,37 +83,15 @@ Overleaf 用户：菜单 **Menu → Compiler 选 XeLaTeX**，主文件设为 `ma
 8. **学校 / 学位（可选）**：页眉文字在 `main.tex` 的
    `\fancyhead[C]{...哈尔滨理工大学电子信息硕士学位论文}`，换学校或学位时改这里。
 
-### 图 / 表 / 公式 的引用
+> 图 / 表 / 公式一律用 `\label` + `\ref` 引用，编号会自动更新，**别手写「图 3-2」**。
 
-用 `\label` + `\ref`，编号会自动更新（**别手写「图 3-2」**）：
-
-```latex
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figures/your-figure.png}
-  \caption{中文图题\\Fig.~\thefigure\ English Caption}
-  \label{fig:your-label}
-\end{figure}
-% 正文引用：如图\ref{fig:your-label}所示……
-```
-
-## 五、字体
-
-正文用**宋体**、标题用**黑体**。它们是 Windows 版权字体，未随仓库分发，需你自行放入
-`fonts/` 目录（`simsun-win.ttc`、`SimHei.ttf`，详见 [`fonts/README.md`](fonts/README.md)）。
-仿宋、楷体用 TeX Live 自带的开源 Fandol，无需另装。
-
-**没有宋体/黑体也能先编译**：在 `main.tex` 里注释掉「中文字体」一段，启用紧随其后的
-**Fandol 兜底方案**（已写好，去掉注释即可），即可在 Overleaf / 任意 TeX Live 上直接出 PDF。
-正式提交前建议换回宋体/黑体以符合学校排版要求。
-
-## 六、许可
+## 五、许可
 
 代码与排版配置以 [MIT License](LICENSE) 开源。注意：
 - **字体文件**不在本仓库内，其版权归各自权利人所有；
 - 示例文字与占位图仅供演示，请勿用于真实学术署名。
 
-## 七、致谢与免责声明
+## 六、致谢与免责声明
 
 本模版为社区自发整理的非官方模版，与学校官方无关；能否用于最终答辩/提交，请以学院/研究生院的
 最新格式要求为准。欢迎提 Issue / PR 一起完善。
