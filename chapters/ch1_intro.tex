@@ -1,0 +1,16 @@
+% 每章第一行用 \section{} 作为「第 X 章」标题；第二行 \setchapternum{X} 设定本章号，
+% 图、表、公式会自动按「X-序号」编号。正文用 \cite 命令引用 paper.bib 中的文献。
+\section{绪论}
+\setchapternum{1}
+
+\subsection{研究背景与意义}
+
+手写数字识别是模式识别与计算机视觉领域的经典问题，在邮政编码分拣、票据处理、表单录入等场景中应用广泛。传统方法依赖人工设计的特征与分类器，泛化能力有限；近年来卷积神经网络凭借自动特征学习的能力在图像分类任务中取得突破\cite{lecun2015deep}，为手写数字识别提供了更为有效的途径。
+
+\subsection{国内外研究现状}
+
+卷积神经网络自 LeNet\cite{lecun1998gradient} 提出以来不断演进，AlexNet\cite{krizhevsky2012imagenet}、VGG\cite{simonyan2015very}、GoogLeNet\cite{szegedy2015going}、ResNet\cite{he2016deep} 等模型相继将图像分类精度推向新高，批量归一化\cite{ioffe2015batch}、Dropout\cite{srivastava2014dropout} 等技术也显著提升了网络的可训练性与泛化能力。在手写数字识别方面，MNIST\cite{deng2012mnist} 已成为最常用的标准基准，国内亦有大量相关研究与综述\cite{zhou2017cnn,li2016cnn}。
+
+\subsection{研究内容与论文结构}
+
+本文以 MNIST 数据集为对象，设计一种小型卷积神经网络，并研究数据增强、批量归一化、Dropout 等训练优化方法对识别性能的影响，最终在测试集上取得 99.32\% 的识别准确率。全文共分五章：第一章为绪论；第二章介绍相关理论与技术基础；第三章给出网络结构设计；第四章讨论模型训练与优化；第五章为实验与结果分析；最后为结论。

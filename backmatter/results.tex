@@ -1,0 +1,24 @@
+% 本页为示例占位内容，请替换为本人攻读学位期间的真实成果（论文/专利/软著/竞赛等）。
+\phantomsection
+\section*{攻读硕士学位期间发表的学术论文及获得成果}
+\addcontentsline{toc}{section}{攻读硕士学位期间发表的学术论文及获得成果}
+
+\begingroup
+\setlength{\parskip}{0pt}
+\setcounter{enumi}{0}
+\newlength{\resultlabelwidth}
+\newcommand{\resultitem}{%
+  \par\addvspace{\bibitemsep}%
+  \stepcounter{enumi}%
+  \settowidth{\resultlabelwidth}{\mkgbnumlabel{\arabic{enumi}}}%
+  \setlength{\hangindent}{\dimexpr\resultlabelwidth+\biblabelsep\relax}%
+  \noindent\mkgbnumlabel{\arabic{enumi}}\hspace{\biblabelsep}%
+}
+  \resultitem 张三, 李四. 基于卷积神经网络的手写数字识别方法研究[J]. 示例学报, 2025, 42(3): 100--108.（示例，请替换）
+  \resultitem 实用新型专利：一种示例装置，某某大学。\newline
+        申请号：ZL2025XXXXXXXXX.X，申请时间：2025 年 X 月 X 日。
+  \resultitem 软件著作权：示例软件系统 V1.0，某某大学。\newline
+        登记号：2025SRXXXXXXX，授权时间：2025 年 X 月 X 日。
+  \resultitem 竞赛获奖：张三，某某大学，某某竞赛省级一等奖，2025 年 X 月。
+\par
+\endgroup

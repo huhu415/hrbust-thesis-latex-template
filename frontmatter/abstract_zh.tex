@@ -1,0 +1,24 @@
+% 中文标题（过长可用 \\ 手动换行）
+\section*{基于卷积神经网络的手写数字识别方法研究}
+
+\section*{摘 \quad 要}
+\addcontentsline{toc}{section}{摘要}
+
+
+手写数字识别是模式识别与图像分类领域的经典问题，应用广泛。传统方法依赖人工设计的特征，泛化能力有限，而卷积神经网络能够自动学习层次化特征，更适合此类任务。本文以 MNIST 数据集为对象，设计一种小型卷积神经网络：以四个 $3\times3$ 卷积层配合批量归一化与 ReLU，经两次最大池化后由全连接层完成分类，参数量约 0.47M。
+
+
+在此基础上，本文研究了数据增强、批量归一化、Dropout 与 Adam 优化等训练方法的作用。实验表明，所提方法在 MNIST 测试集上取得 99.32\% 的识别准确率，优于 Softmax 回归、多层感知机与 LeNet-5 等对比方法，消融实验也验证了各训练技巧的有效性。
+
+
+\vspace{\baselineskip}
+
+% 关键词（用分号分隔）
+{\noindent
+\begingroup
+\setbox0=\hbox{\textbf{关键词}\quad}
+\hangindent=\wd0
+\hangafter=1
+\textbf{关键词}\quad 卷积神经网络；手写数字识别；MNIST；深度学习；图像分类\par
+\endgroup
+}

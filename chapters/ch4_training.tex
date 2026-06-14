@@ -1,0 +1,46 @@
+\section{模型训练与优化}
+\setchapternum{4}
+
+\subsection{数据预处理与增强}
+
+训练前先将像素归一化至 $[0,1]$ 并按训练集统计量标准化。为提升泛化能力，训练阶段在线施加随机旋转（$\pm10^{\circ}$）、随机平移（$\pm2$ 像素）与随机缩放等数据增强\cite{krizhevsky2012imagenet}，测试阶段不作增强。
+
+\subsection{损失函数与优化器}
+
+本文采用交叉熵损失，如式(\ref{eq:ce})所示，其中 $N$ 为样本数、$C=10$ 为类别数、$p_{i,c}$ 为预测概率。优化器选用 Adam\cite{kingma2015adam}，初始学习率 $0.001$，批大小 $128$。
+
+\begin{equation}
+\mathcal{L} = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C} \mathbb{1}\{y_i = c\}\log p_{i,c}
+\label{eq:ce}
+\end{equation}
+
+\subsection{正则化方法}
+
+% ===== 四级标题（runin 嵌入式）示例 =====
+\paragraph{批量归一化。}通过对每层输入按小批量归一化\cite{ioffe2015batch}，缓解内部协变量偏移，加速收敛并稳定训练。
+
+\paragraph{Dropout。}在全连接层以 $0.5$ 的概率随机失活神经元\cite{srivastava2014dropout}，近似集成多个子网络，有效抑制过拟合；卷积层与全连接层权重采用 He 初始化\cite{glorot2010understanding}。
+
+\subsection{训练设置与消融实验}
+
+实验基于 PyTorch 实现，在单张 NVIDIA RTX 3060 GPU 上训练 $20$ 轮。为评估各训练技巧的贡献，本文以基础 CNN 为对照逐项叠加，结果如表\ref{tab:ablation}所示：三项技巧累计使测试准确率从 $98.74\%$ 提升至 $99.32\%$。
+
+\begin{table}[htbp]
+\centering
+\caption{训练技巧消融实验结果\\Table~\thetable\ Ablation study of training techniques}
+\label{tab:ablation}
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}c c c}
+\toprule
+配置 & 测试准确率 (\%) & 相对提升 \\
+\midrule
+基础 CNN & 98.74 & --- \\
+\quad + 批量归一化 & 99.05 & +0.31 \\
+\quad + Dropout & 99.18 & +0.13 \\
+\quad + 数据增强（本文方法） & 99.32 & +0.14 \\
+\bottomrule
+\end{tabular*}
+\end{table}
+
+\subsection{本章小结}
+
+本章介绍了数据增强、交叉熵损失与 Adam 优化器，以及批量归一化、Dropout 等正则化方法，并通过消融实验验证了各项训练技巧的有效性。

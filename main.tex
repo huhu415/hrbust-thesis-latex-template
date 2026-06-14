@@ -1,0 +1,268 @@
+% !TEX program = xelatex
+% ============================================================
+% 哈尔滨理工大学 电子信息硕士学位论文 LaTeX 模版
+% 编译方式：XeLaTeX → biber → XeLaTeX → XeLaTeX
+% 更换内容：正文在 chapters/，前置在 frontmatter/，后置在 backmatter/，
+%           图片在 figures/，参考文献在 paper.bib。详见 README.md。
+% ============================================================
+
+% ===== 一、字体 =====
+\documentclass[UTF8, 12pt]{ctexart}
+
+% 英文字体
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% 中文字体说明：
+%   正文用宋体（SimSun）、标题用黑体（SimHei）。这两个是 Windows 系统字体，
+%   有版权、未随仓库分发；请自行将 simsun-win.ttc、SimHei.ttf 放入 ./fonts/ 目录
+%   （获取方式见 fonts/README.md）。仿宋、楷体使用 TeX Live 自带的开源 Fandol，无需另装。
+%   若暂时没有宋体/黑体文件，可注释掉下面这段、改用本节末尾的「Fandol 兜底方案」。
+\setCJKmainfont[
+  Path = ./fonts/,
+  UprightFont = simsun-win.ttc,
+  AutoFakeBold = 2.5
+]{SimSun}                                  % 宋体 → 正文
+\setCJKsansfont[
+  Path = ./fonts/,
+  UprightFont = SimHei.ttf
+]{SimHei}                                  % 黑体 → 标题
+\setCJKmonofont{FandolFang}                % 仿宋 → 等宽位
+
+\setCJKfamilyfont{zhsong}[
+  Path = ./fonts/,
+  UprightFont = simsun-win.ttc,
+  AutoFakeBold = 2.5
+]{SimSun}
+\setCJKfamilyfont{zhhei}[
+  Path = ./fonts/,
+  UprightFont = SimHei.ttf
+]{SimHei}
+\setCJKfamilyfont{zhkai}{FandolKai}
+\setCJKfamilyfont{zhfs}{FandolFang}
+
+% ---------- Fandol 兜底方案（开箱即用，无需宋体/黑体文件）----------
+% 没有 Windows 宋体/黑体时，注释掉上面整段中文字体设置，改用下面这段：
+% （TeX Live / Overleaf 自带 Fandol，可直接编译，仅与宋体/黑体观感略有差异）
+%
+% \setCJKmainfont{FandolSong}
+% \setCJKsansfont{FandolHei}
+% \setCJKmonofont{FandolFang}
+% \setCJKfamilyfont{zhsong}{FandolSong}
+% \setCJKfamilyfont{zhhei}{FandolHei}
+% \setCJKfamilyfont{zhkai}{FandolKai}
+% \setCJKfamilyfont{zhfs}{FandolFang}
+% ------------------------------------------------------------------
+
+% ===== 二、页面设置 =====
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  top=4.4cm,
+  bottom=4.3cm,
+  left=3.25cm,
+  right=3.25cm,
+  headheight=15pt,
+  headsep=0.521cm,
+  footskip=0.95cm,
+}
+
+% ===== 三、常用宏包 =====
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{CJKfntef}
+\usepackage{caption}
+\usepackage{chngcntr}
+\usepackage{fancyhdr}
+\usepackage{etoolbox}
+\usepackage{placeins}
+
+
+% ===== 四、章节计数器（article 模拟章节编号）=====
+\newcounter{chapternum}
+\newcommand{\setchapternum}[1]{%
+  \setcounter{chapternum}{#1}%
+  \setcounter{equation}{0}%
+  \setcounter{figure}{0}%
+  \setcounter{table}{0}%
+}
+\renewcommand{\theequation}{\arabic{chapternum}-\arabic{equation}}
+\counterwithin{figure}{chapternum}
+\counterwithin{table}{chapternum}
+\renewcommand{\thefigure}{\arabic{chapternum}-\arabic{figure}}
+\renewcommand{\thetable}{\arabic{chapternum}-\arabic{table}}
+\providecommand*{\theHequation}{\arabic{chapternum}.\arabic{equation}}
+\providecommand*{\theHfigure}{\arabic{chapternum}.\arabic{figure}}
+\providecommand*{\theHtable}{\arabic{chapternum}.\arabic{table}}
+
+% ===== 五、参考文献 & 超链接 =====
+\usepackage[
+  backend=biber,
+  style=gb7714-2015,
+  autocite=inline,
+  sorting=none,
+  gbnamefmt=lowercase,
+  sortcites=true,
+  gbcitelabel=bracket,
+  gbcitecomp=true,
+  maxbibnames=3,      % 超过3人显示 et al.
+  minbibnames=3,      % et al. 前保留3个作者
+  gbtype=true,
+  gbpunctin=false,
+  gbfieldstd=true
+]{biblatex}
+\AtBeginBibliography{\renewrobustcmd*{\mkbibemph}[1]{#1}}
+% 取消斜体
+\addbibresource{paper.bib}
+
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks,
+  pdfborder={0 0 0},
+  hypertexnames=false
+}
+
+% 为了和word的标题段前段后空隙保持一致
+\newcommand{\xiaoer}{\fontsize{18pt}{25.2pt}\selectfont}   % 18 × 1.4
+\newcommand{\xiaosan}{\fontsize{15pt}{21pt}\selectfont}    % 15 × 1.4
+\newcommand{\sihao}{\fontsize{14pt}{19.6pt}\selectfont}    % 14 × 1.4
+
+% ===== 六、字号命令 =====
+% \newcommand{\xiaoer}{\fontsize{18pt}{21.6pt}\selectfont}
+% \newcommand{\xiaosan}{\fontsize{15pt}{18pt}\selectfont}
+% \newcommand{\sihao}{\fontsize{14pt}{16.8pt}\selectfont}
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}
+\newcommand{\xiaowu}{\fontsize{9pt}{10.8pt}\selectfont}
+\newcommand{\wuhao}{\fontsize{10.5pt}{12.6pt}\selectfont}
+
+% ===== 七、正文默认字号与段落 =====
+\AtBeginDocument{\linespread{1}\xiaosi\setlength{\parindent}{2em}\setlength{\parskip}{0pt}\setlength{\emergencystretch}{1em}}
+
+% ===== 八、章节标题格式 =====
+% 一级标题：黑体小二，居中，段前12pt 段后6pt，单倍行距
+\titleformat{\section}[block]
+  {\centering\heiti\xiaoer\linespread{1}\selectfont}
+  {第\thesection 章}{1em}{\strut}
+\titlespacing{\section}{0pt}{12pt}{12pt}
+
+\titleformat{\subsection}[block]
+  {\heiti\xiaosan\linespread{1}\selectfont}
+  {\thesubsection}{1em}{\strut}
+\titlespacing{\subsection}{0pt}{6pt}{6pt}
+
+\titleformat{\subsubsection}[block]
+  {\heiti\sihao\linespread{1}\selectfont}
+  {\thesubsubsection}{1em}{\strut}
+\titlespacing{\subsubsection}{0pt}{3pt}{3pt}
+
+% 四级（runin）
+\titleformat{\paragraph}[runin]
+  {\heiti\xiaosi\linespread{1}\selectfont}
+  {}{0pt}{}
+\titlespacing{\paragraph}{2em}{6pt}{1em}
+
+% ===== 十、图表标题 =====
+\DeclareCaptionFont{wuhao}{\wuhao}
+\captionsetup{font={wuhao,stretch=1},justification=centering,singlelinecheck=false,labelsep=space}
+\captionsetup[figure]{position=bottom,skip=6pt}
+\captionsetup[table]{position=top,skip=6pt}
+\AtBeginEnvironment{tabular}{\wuhao}
+\AtBeginEnvironment{tabular*}{\wuhao}
+\AtBeginEnvironment{longtable}{\wuhao}
+\setlength{\heavyrulewidth}{1.5pt}
+\setlength{\lightrulewidth}{1pt}
+\setlength{\cmidrulewidth}{1pt}
+
+% ===== 十一、目录 =====
+
+% 配置章目录格式 (第1级)
+\titlecontents{section}[0pt] % 左缩进
+  {\heiti\zihao{-4}} % 字体格式：黑体，小4号
+  {第\thecontentslabel 章\quad} % 章节号格式：第x章 + 标题
+  {} % 节标题
+  {\tocdotfill\tocpage} % 填充点线及页码
+
+% 配置节目录格式 (第2级)
+\titlecontents{subsection}[3em] % 缩进：约3.5个汉字宽
+  {\songti\zihao{-4}} % 字体格式：宋体，小4号
+  {\contentslabel{1.5em}} % 节号盒宽：约2.8个汉字宽
+  {}
+  {\tocdotfill\tocpage} % 填充点线及页码
+
+\titlecontents{subsubsection}[4.5em] % 缩进：再右移一档
+  {\songti\zihao{-4}} % 字体格式：宋体，小4号
+  {\contentslabel{2em}} % 节号盒宽：约4.0个汉字宽
+  {}
+  {\tocdotfill\tocpage} % 填充点线及页码
+
+\renewcommand{\contentsname}{\centering 目 \quad 录}
+\newcommand{\tocdotfill}{\titlerule*[0.30pc]{{\normalfont.}}}
+\newcommand{\tocpage}{\normalfont\contentspage}
+
+% ===================================================================
+\begin{document}
+
+% 去掉页眉罗马数字编码
+\pagenumbering{Roman}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\wuhao -\Roman{page}-}
+  \renewcommand{\headrulewidth}{0pt}   % 不显示线
+}
+\pagestyle{plain}
+
+% 中英文摘要
+\input{frontmatter/abstract_zh}
+\clearpage
+\input{frontmatter/abstract_en}
+\clearpage
+
+% 补回页眉
+\pagestyle{fancy}
+\fancyhead[C]{\songti\xiaowu 哈尔滨理工大学电子信息硕士学位论文}
+\renewcommand{\headrulewidth}{0.4pt}
+\newcommand{\wordthickthinrule}{%
+  \par\noindent
+  \hrule height 1.0bp
+  \vskip 0.5bp
+  \hrule height 0.5bp
+  \par
+}
+\makeatletter
+\renewcommand{\headrule}{\wordthickthinrule}
+\makeatother
+\fancyfoot[C]{\wuhao -\thepage-}
+
+% 目录
+\tableofcontents
+\clearpage
+
+% 正文同时开始阿拉伯数字编码
+\pagenumbering{arabic}
+\addtocontents{toc}{\vspace{1em}}   % ← 摘要与绪论之间空一行
+\input{chapters/ch1_intro}
+\clearpage
+\input{chapters/ch2_related}
+\clearpage
+\input{chapters/ch3_model}
+\clearpage
+\input{chapters/ch4_training}
+\clearpage
+\input{chapters/ch5_experiment}
+\clearpage
+
+\input{backmatter/conclusion}
+\clearpage
+\input{backmatter/references}
+\clearpage
+\input{backmatter/results}
+\clearpage
+\input{backmatter/acknowledgements}
+
+\end{document}
